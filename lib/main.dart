@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blueGrey,
         sliderTheme: const SliderThemeData(showValueIndicator: ShowValueIndicator.always),
       ),
-      home: const MyHomePage(title: 'SVG Sandbox'),
+      home: const MyHomePage(title: 'Flutter SVG Sandbox'),
     );
   }
 }
@@ -38,7 +38,6 @@ class _MyHomePageState extends State<MyHomePage> {
   String svg = '';
   double sliderValue = kMaxIconFrame / 2;
 
-  //TextEditingController textController = TextEditingController();
   late TextEditingController textController;
 
   void _updateSvgString(String svgData) {
@@ -51,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    svg = kSvgValid;
+    svg = kSvgSuspect;
     textController = TextEditingController(text: svg);
     textController.addListener(_updateSvgData);
   }
@@ -63,21 +62,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildIconPreview(String svgString) {
-    //SvgPicture sp = RenderHelpers.displaySvgWithSizing(svgString, '#FFFFFF', sliderValue);
-
-/*
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        SvgWrapper(
-          svgString: svg,
-          wrapperSize: sliderValue,
-        ),
-      ],
-    );
-*/
     return SvgWrapper(
       svgString: svg,
       wrapperSize: sliderValue,
@@ -93,111 +77,147 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: TextFormField(
-                //onChanged: (newval) => textController.text = newval,
-                maxLines: null,
-                controller: textController,
-                cursorColor: Colors.black,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Theme.of(context).primaryColor,
-                  border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(4)),
-                  contentPadding: const EdgeInsets.all(20.0),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'You can edit the SVG string and click refresh to preview',
+                      style: TextStyle(fontSize: 17),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green.shade700,
-                    elevation: 8, // Elevation
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12.0),
+                child: TextFormField(
+                  maxLines: null,
+                  controller: textController,
+                  cursorColor: Colors.black,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Theme.of(context).primaryColor,
+                    border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(4)),
+                    contentPadding: const EdgeInsets.all(20.0),
                   ),
-                  onPressed: () => _updateSvgString(kSvgValid),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Valid SVG',
-                      style: TextStyle(fontSize: 16),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green.shade700,
+                      elevation: 8, // Elevation
+                    ),
+                    onPressed: () => _updateSvgString(kSvgValid),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Valid SVG',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
                   ),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.redAccent.shade700,
-                    elevation: 8, // Elevation
-                  ),
-                  onPressed: () => _updateSvgString(kSvgSuspect),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Suspect SVG',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: Theme.of(context).primaryColorDark,
-                ),
-
-                // child: Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   children: [
-                //     SizedBox(
-                //       height: 200,
-                //       width: 200,
-                //       child: _buildIconPreview(svg),
-                //     ),
-                //   ],
-                // ),
-                child: Padding(
-                  padding: const EdgeInsets.all(28.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Slider(
-                          label: 'Icon Size',
-                          min: 10,
-                          max: kMaxIconFrame,
-                          thumbColor: Colors.white,
-                          value: sliderValue,
-                          onChanged: (value) => setState(() {
-                                sliderValue = value;
-                              })),
-                      _buildIconPreview(svg),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.redAccent.shade700,
+                          elevation: 8, // Elevation
+                        ),
+                        onPressed: () => _updateSvgString(kSvgSuspect),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Suspect SVG (original)',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.redAccent.shade700,
+                          elevation: 8, // Elevation
+                        ),
+                        onPressed: () => _updateSvgString(kSvgSuspectMergedPath),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Suspect SVG (optimised)',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
+
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 12.0),
+                child: Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: Theme.of(context).primaryColorDark,
+                  ),
+
+                  // child: Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   children: [
+                  //     SizedBox(
+                  //       height: 200,
+                  //       width: 200,
+                  //       child: _buildIconPreview(svg),
+                  //     ),
+                  //   ],
+                  // ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(28.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Slider(
+                            label: 'Icon Size',
+                            min: 10,
+                            max: kMaxIconFrame,
+                            thumbColor: Colors.white,
+                            value: sliderValue,
+                            onChanged: (value) => setState(() {
+                                  sliderValue = value;
+                                })),
+                        _buildIconPreview(svg),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-            // const Text(
-            //   'You have pushed the button this many times:',
-            // ),
-            // Text(
-            //   '$svgString',
-            //   style: Theme.of(context).textTheme.headline2,
-            // ),
-          ],
+              // const Text(
+              //   'You have pushed the button this many times:',
+              // ),
+              // Text(
+              //   '$svgString',
+              //   style: Theme.of(context).textTheme.headline2,
+              // ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColorDark,
+        isExtended: true,
+        backgroundColor: Colors.blueAccent,
         onPressed: () => setState(() {}),
         tooltip: 'Refresh',
         child: const Icon(Icons.refresh),
