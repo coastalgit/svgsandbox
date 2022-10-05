@@ -26,15 +26,15 @@ class _SvgWrapperState extends State<SvgWrapper> {
         child: const Padding(
           padding: EdgeInsets.all(8.0),
           //child: RenderHelpers.displaySvg(btn.icon, btn.iconColor),
-          child: Text('Invalid SVG data', style: TextStyle(color: Colors.white),),
+          child: Text(
+            'Invalid SVG data',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       );
     }
 
     sp = RenderHelpers.displaySvgWithSizing(widget.svgString, '#FFFFFF', widget.wrapperSize);
-    // sp = RenderHelpers.displaySvgWithSizing(btn.icon, btn.iconColor,
-    //     DeviceSizing.resizeForDevice(mqSize: MediaQuery.of(context).size, widgetId: WidgetIdent.ButtonIconSize));
-    //sp = RenderHelpers.displaySvg(btn.icon, btn.iconColor);
 
     return Container(
       color: Colors.blueAccent,

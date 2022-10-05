@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:svgsandbox/renderhelpers.dart';
 import 'package:svgsandbox/svgwrapper.dart';
 
@@ -10,7 +9,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -160,7 +158,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
                   ),
-
                 ],
               ),
               Padding(
@@ -171,18 +168,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(4),
                     color: Theme.of(context).primaryColorDark,
                   ),
-
-                  // child: Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   children: [
-                  //     SizedBox(
-                  //       height: 200,
-                  //       width: 200,
-                  //       child: _buildIconPreview(svg),
-                  //     ),
-                  //   ],
-                  // ),
                   child: Padding(
                     padding: const EdgeInsets.all(28.0),
                     child: Column(
@@ -204,13 +189,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              // const Text(
-              //   'You have pushed the button this many times:',
-              // ),
-              // Text(
-              //   '$svgString',
-              //   style: Theme.of(context).textTheme.headline2,
-              // ),
             ],
           ),
         ),
