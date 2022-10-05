@@ -21,6 +21,11 @@ migrate_working_dir/
 # is commented out by default.
 #.vscode/
 
+# Firebase related
+.firebase/
+.firebaserc
+firebase.json
+
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
@@ -43,7 +48,3 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Firebase related
-.firebase/
-.firebaserc
-.firebase.json
