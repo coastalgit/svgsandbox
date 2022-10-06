@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/parser.dart';
 
-const double kMaxIconFrame = 500;
+const double kMaxIconFrame = 300;
 
 const String kSvgValid =
     '''<svg viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm0 128c17.67 0 32 14.33 32 32s-14.33 32-32 32-32-14.3-32-32 14.3-32 32-32zm40 256h-80c-13.2 0-24-10.7-24-24s10.75-24 24-24h16v-64h-8c-13.25 0-24-10.75-24-24s10.8-24 24-24h32c13.25 0 24 10.75 24 24v88h16c13.25 0 24 10.75 24 24s-10.7 24-24 24z"/></svg>''';
@@ -57,22 +57,32 @@ class RenderHelpers {
     return false;
   }
 
-  static SvgPicture? displaySvgWithSizing(String rawSvg, String rawColor, double iconHeight) {
-    //print('displaySvgWithSizing size='+iconHeight.toString());
+  static SvgPicture? displaySvgWithSizing(String rawSvg, String rawColor, double iconHeight, bool applyColor) {
+    //print('displaySvgWithSizing size=' + iconHeight.toString() + ' applyColor=' + applyColor.toString());
 
+    // strangely it appears the SvgPicture object retains cached values (when using HTML) so a browser refresh is required
     SvgPicture? sv;
+    SvgPicture? svNoColor;
+
     try {
-      sv = SvgPicture.string(
-        //clipBehavior: Clip.antiAliasWithSaveLayer,
-        rawSvg,
-        color: HexColor(rawColor),
-        fit: BoxFit.cover,
-        //fit: BoxFit.fitHeight,
-        height: iconHeight,
-        //width: iconHeight,
-        //allowDrawingOutsideViewBox: true,
-        //alignment: Alignment.center,
-      );
+       sv = applyColor
+          ? SvgPicture.string(
+              //clipBehavior: Clip.antiAliasWithSaveLayer,
+              rawSvg,
+              //color: applyColor ? HexColor(rawColor) : null,
+              color: HexColor(rawColor),
+              fit: BoxFit.cover,
+              //fit: BoxFit.fitHeight,
+              height: iconHeight,
+              //width: iconHeight,
+              //allowDrawingOutsideViewBox: true,
+              //alignment: Alignment.center,
+            )
+          : SvgPicture.string(
+              rawSvg,
+              fit: BoxFit.cover,
+              height: iconHeight,
+            );
     } catch (exc) {
       print('SVG build exception: [$exc]');
     }

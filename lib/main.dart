@@ -34,6 +34,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String svg = '';
+  bool hasColor = false;
   double sliderValue = kMaxIconFrame / 2;
 
   late TextEditingController textController;
@@ -63,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return SvgWrapper(
       svgString: svg,
       wrapperSize: sliderValue,
+      applyColor: hasColor,
     );
   }
 
@@ -86,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: const [
                     Text(
-                      'You can edit the SVG string and click refresh to preview',
+                      'You can edit the SVG string and click the refresh FAB to preview',
                       style: TextStyle(fontSize: 17),
                     ),
                   ],
@@ -183,6 +185,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             onChanged: (value) => setState(() {
                                   sliderValue = value;
                                 })),
+                        SizedBox(
+                          width: 200,
+                          child: CheckboxListTile(
+                              title: const Text('Apply Color', style: TextStyle(color: Colors.white)),
+                              value: hasColor,
+                              onChanged: (checked) => setState(() {
+                                    hasColor = checked!;
+                                  })),
+                        ),
                         _buildIconPreview(svg),
                       ],
                     ),

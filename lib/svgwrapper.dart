@@ -5,8 +5,10 @@ import 'package:svgsandbox/renderhelpers.dart';
 class SvgWrapper extends StatefulWidget {
   final String svgString;
   final double wrapperSize;
+  final bool applyColor;
 
-  const SvgWrapper({Key? key, required this.svgString, required this.wrapperSize}) : super(key: key);
+  const SvgWrapper({Key? key, required this.svgString, required this.wrapperSize, this.applyColor = false})
+      : super(key: key);
 
   @override
   State<SvgWrapper> createState() => _SvgWrapperState();
@@ -14,6 +16,7 @@ class SvgWrapper extends StatefulWidget {
 
 class _SvgWrapperState extends State<SvgWrapper> {
   late SvgPicture? sp;
+  late SvgPicture? spNoColor;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,9 @@ class _SvgWrapperState extends State<SvgWrapper> {
       );
     }
 
-    sp = RenderHelpers.displaySvgWithSizing(widget.svgString, '#FFFFFF', widget.wrapperSize);
+    // strangely it appears the SvgPicture object retains cached values (when using HTML) so a browser refresh is required
+    sp = RenderHelpers.displaySvgWithSizing(widget.svgString, '#FFFFFF', widget.wrapperSize, widget.applyColor);
+    spNoColor = RenderHelpers.displaySvgWithSizing(widget.svgString, '#FFFFFF', widget.wrapperSize, widget.applyColor);
 
     return Container(
       color: Colors.blueAccent,
@@ -43,7 +48,7 @@ class _SvgWrapperState extends State<SvgWrapper> {
       alignment: Alignment.center,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: sp,
+        child: widget.applyColor ? sp : spNoColor,
       ),
     );
   }
