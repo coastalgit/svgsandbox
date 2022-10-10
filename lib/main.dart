@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:svgsandbox/datapreviewer.dart';
 import 'package:svgsandbox/renderhelpers.dart';
 import 'package:svgsandbox/svgwrapper.dart';
+
+const bool kAllowDataPreview = false;
 
 void main() {
   runApp(const MyApp());
@@ -68,6 +71,16 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  void _launchDataPreviewer() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => DataPreviewer(
+                applyColor: hasColor,
+              )),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,6 +107,29 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
               ),
+              kAllowDataPreview
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                              elevation: 8, // Elevation
+                            ),
+                            onPressed: () => _launchDataPreviewer(),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                'Show Data Previewer',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : const SizedBox.shrink(),
               Padding(
                 padding: const EdgeInsets.only(bottom: 12.0),
                 child: TextFormField(

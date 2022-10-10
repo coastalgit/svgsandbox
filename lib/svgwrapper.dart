@@ -6,8 +6,10 @@ class SvgWrapper extends StatefulWidget {
   final String svgString;
   final double wrapperSize;
   final bool applyColor;
+  final String infoString;
 
-  const SvgWrapper({Key? key, required this.svgString, required this.wrapperSize, this.applyColor = false})
+  const SvgWrapper(
+      {Key? key, required this.svgString, required this.wrapperSize, this.applyColor = false, this.infoString = ''})
       : super(key: key);
 
   @override
@@ -41,15 +43,30 @@ class _SvgWrapperState extends State<SvgWrapper> {
     sp = RenderHelpers.displaySvgWithSizing(widget.svgString, '#FFFFFF', widget.wrapperSize, widget.applyColor);
     spNoColor = RenderHelpers.displaySvgWithSizing(widget.svgString, '#FFFFFF', widget.wrapperSize, widget.applyColor);
 
-    return Container(
-      color: Colors.blueAccent,
-      height: kMaxIconFrame,
-      width: kMaxIconFrame,
-      alignment: Alignment.center,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: widget.applyColor ? sp : spNoColor,
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: widget.infoString.isNotEmpty ? CrossAxisAlignment.stretch : CrossAxisAlignment.center,
+      children: [
+        widget.infoString.isNotEmpty
+            ? Container(
+                color: Colors.blueAccent.shade700,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(widget.infoString, style: const TextStyle(color: Colors.white)),
+                ),
+              )
+            : const SizedBox.shrink(),
+        Container(
+          color: Colors.blueAccent,
+          height: kMaxIconFrame,
+          width: kMaxIconFrame,
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: widget.applyColor ? sp : spNoColor,
+          ),
+        ),
+      ],
     );
   }
 }

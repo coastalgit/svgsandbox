@@ -62,10 +62,10 @@ class RenderHelpers {
 
     // strangely it appears the SvgPicture object retains cached values (when using HTML) so a browser refresh is required
     SvgPicture? sv;
-    SvgPicture? svNoColor;
+    //SvgPicture? svNoColor;
 
     try {
-       sv = applyColor
+      sv = applyColor
           ? SvgPicture.string(
               //clipBehavior: Clip.antiAliasWithSaveLayer,
               rawSvg,
